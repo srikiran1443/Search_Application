@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require('mongoose');
+require('dotenv').config();
+
 
 // Initialize Express app
 const app = express();
@@ -12,11 +14,14 @@ app.use(express.json());
 
 // MongoDB connection
 mongoose.connect(
-  'mongodb+srv://srikiran1443:t2ww1yUROyaRNLTr@cluster1.7cefvhs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1',
-  { useNewUrlParser: true, useUnifiedTopology: true }
+  process.env.MONGODB_URI,
+  // If you want to suppress deprecation warnings and you're using Mongoose v6 or later, you can REMOVE useNewUrlParser and useUnifiedTopology:
+  // {}
+  // If needed, you can keep those, but newer versions don't use them.
 )
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log(err));
+.then(() => console.log("MongoDB connected"))
+.catch((err) => console.log(err));
+
 
 // Import Book model
 const Book = require('./models/Book');
